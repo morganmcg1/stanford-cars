@@ -7,7 +7,14 @@ Image classification of the stanford-cars dataset leveraging the fastai v1. The 
 
 This was all run on a Paperspace P4000 machine.
 
-# Current best score: 93.8%
+## Current best score TL;DR
+- 9_stanford_cars_EfficientNet_Ranger_Mish_Trial
+- Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using MEfficientNet-b3 + Ranger
+Beat the EfficientNet paper EfficientNet-b3 result by 0.2%
+EfficientNet author's best result using b3 was 93.6%, best EfficientNet result was 94.8% (current SOTA) with EfficientNet-b7
+Used MEfficientNet-b3, created by swapping the Squish activation function for the Mish activation function
+Used the Ranger optimisation function (a combination of RAdam and Lookahead) and trained with FlatCosAnnealScheduler
+EfficientNet-b3 with Ranger but without Mish was giving test set accuracy around 93.4% (-0.4%) and was much more stable to train than my efforts to train the model with RMSProp, which was used in the paper
 
 **labels_df.csv** contains the labels, filepath and test/train flag for each image file.
 
