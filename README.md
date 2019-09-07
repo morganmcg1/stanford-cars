@@ -11,6 +11,8 @@ This was all run on a Paperspace P4000 machine.
 
 #### TL;DR
 - NOTEBOOK: [9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb](https://github.com/morganmcg1/stanford-cars/blob/master/9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb)
+- [Fastai Forums post and discussion](https://forums.fast.ai/t/project-stanford-cars-with-fastai-v1/34311/37)
+- [Quick Medium post](https://medium.com/@morganmcg)
 - Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using MEfficientNet-b3 + Ranger
 - Beat the EfficientNet paper EfficientNet-b3 result by 0.2%
 - EfficientNet author's best result using b3 was 93.6%, best EfficientNet result was 94.8% (current SOTA) with EfficientNet-b7
