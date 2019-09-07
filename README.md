@@ -8,8 +8,9 @@ Image classification of the stanford-cars dataset leveraging the fastai v1. The 
 This was all run on a Paperspace P4000 machine.
 
 ## Current best score - **93.8%**
+
 #### TL;DR
-- File: 9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb
+- NOTEBOOK: [9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb](https://github.com/morganmcg1/stanford-cars/blob/master/9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb)
 - Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using MEfficientNet-b3 + Ranger
 - Beat the EfficientNet paper EfficientNet-b3 result by 0.2%
 - EfficientNet author's best result using b3 was 93.6%, best EfficientNet result was 94.8% (current SOTA) with EfficientNet-b7
