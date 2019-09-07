@@ -10,13 +10,15 @@ This was all run on a Paperspace P4000 machine.
 ## Current best score TL;DR
 - 9_stanford_cars_EfficientNet_Ranger_Mish_Trial
 - Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using MEfficientNet-b3 + Ranger
-Beat the EfficientNet paper EfficientNet-b3 result by 0.2%
-EfficientNet author's best result using b3 was 93.6%, best EfficientNet result was 94.8% (current SOTA) with EfficientNet-b7
-Used MEfficientNet-b3, created by swapping the Squish activation function for the Mish activation function
-Used the Ranger optimisation function (a combination of RAdam and Lookahead) and trained with FlatCosAnnealScheduler
-EfficientNet-b3 with Ranger but without Mish was giving test set accuracy around 93.4% (-0.4%) and was much more stable to train than my efforts to train the model with RMSProp, which was used in the paper
+- Beat the EfficientNet paper EfficientNet-b3 result by 0.2%
+- EfficientNet author's best result using b3 was 93.6%, best EfficientNet result was 94.8% (current SOTA) with EfficientNet-b7
+- Used MEfficientNet-b3, created by swapping the Squish activation function for the Mish activation function
+- Used the Ranger optimisation function (a combination of RAdam and Lookahead) and trained with FlatCosAnnealScheduler
+- EfficientNet-b3 with Ranger but without Mish was giving test set accuracy around 93.4% (-0.4%) and was much more stable to train than my efforts to train the model with RMSProp, which was used in the paper
 
-**labels_df.csv** contains the labels, filepath and test/train flag for each image file.
+### Credits
+- [Huge credit for this work goest to this inspirational fastai thread](https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu/53299/280), credit to @lukemelas for the pytorch implementation and all the fastai community especially @lessw2020 for Ranger, @digantamisra98 for Mish and @muellerzr, @grankin and everyone else there for making valuable contributions
+
 
 ## Notebook Results
 
@@ -50,8 +52,12 @@ EfficientNet-b3 with Ranger but without Mish was giving test set accuracy around
  - **88.3%** Accuracy achieved
  
   **9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb**
+ - Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using Mish EfficientNet-b3 + Ranger
  - Using the Mish activation and Ranger with EfficientNet-b3. See notebook for implementation details
- - **93.8%** Accuracy achieved
+ - Validation loss and Accuracy (I used the test set as the validation set) are saved in mefficientnet_b3_ranger_results.xlsx 
+
+
+**labels_df.csv** contains the labels, filepath and test/train flag for each image file.
 
 ## S0TA 
 - **95%** - WS-DAN - [See Better Before Looking Closer: Weakly Supervised Data Augmentation Network for Fine-Grained Visual Classification - Hu 2019](https://arxiv.org/abs/1901.09891). Code might not be released until October 2019 if it is accepted for ICCV-2019.
