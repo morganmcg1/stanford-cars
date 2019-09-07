@@ -3,12 +3,13 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/morganmcg1/Projects/master)
   <- Launch Binder or share the [Binder link](https://mybinder.org/v2/gh/morganmcg1/Projects/master)
 
-Image classification of the stanford-cars dataset leveraging the fastai v1. The goal is to ~~**try hit 90%+ accuracy* **~~ **shoot for the stars**, starting with a basic fastai image classification workflow and interating from there. 
+Image classification of the stanford-cars dataset leveraging the fastai v1. The goal is to ~~**try hit 90%+ accuracy**~~  **shoot for the stars**, starting with a basic fastai image classification workflow and interating from there. 
 
 This was all run on a Paperspace P4000 machine.
 
-## Current best score TL;DR
-- 9_stanford_cars_EfficientNet_Ranger_Mish_Trial
+## Current best score - **93.8%**
+#### TL;DR
+- File: 9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb
 - Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using MEfficientNet-b3 + Ranger
 - Beat the EfficientNet paper EfficientNet-b3 result by 0.2%
 - EfficientNet author's best result using b3 was 93.6%, best EfficientNet result was 94.8% (current SOTA) with EfficientNet-b7
@@ -16,7 +17,7 @@ This was all run on a Paperspace P4000 machine.
 - Used the Ranger optimisation function (a combination of RAdam and Lookahead) and trained with FlatCosAnnealScheduler
 - EfficientNet-b3 with Ranger but without Mish was giving test set accuracy around 93.4% (-0.4%) and was much more stable to train than my efforts to train the model with RMSProp, which was used in the paper
 
-### Credits
+#### Credits
 - [Huge credit for this work goest to this inspirational fastai thread](https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu/53299/280), credit to @lukemelas for the pytorch implementation and all the fastai community especially @lessw2020 for Ranger, @digantamisra98 for Mish and @muellerzr, @grankin and everyone else there for making valuable contributions
 
 
