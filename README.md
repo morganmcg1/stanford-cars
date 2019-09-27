@@ -25,41 +25,44 @@ This was all run on a Paperspace P4000 machine.
 
 
 ## Notebook Results
+ 
+ **exp_stanford_cars_EfficientNet_Mish Range913A.ipynb**
+ - Ran 8 experiments testing Beta version of new Range913A from [@less20202](https://github.com/lessw2020/Ranger-Deep-Learning-Optimizer)
+ - Matched previous best using "vanialla" Ranger (**93.8%**), needed a higher lr to match (1e2 vs 1.5e-3) 
+ - Notebook for full results and plots of validation loss and accuracy
+
+**9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb**
+ - Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using Mish EfficientNet-b3 + Ranger
+ - Using the Mish activation and Ranger with EfficientNet-b3. See notebook for implementation details
+ - Validation loss and Accuracy (I used the test set as the validation set) are saved in mefficientnet_b3_ranger_results.xlsx 
+
+ **6_stanford_cars_cutout.ipynb**
+ - Used the Cuout data augmentation alongside default fastai data transforms, size of the squares were 25% of the image side (e.g. 25%  x 224)
+ - **88.3%** Accuracy achieved
+
+  **5_stanford_cars_mixup_and_dropout.ipynb**
+
+ - Tuning the dropout parameters while also using the [Mixup](https://arxiv.org/abs/1710.09412)) protocol
+ - **89.2%** Accuracy achieved with agressive dropout (ps = [0.35, 0.7]), accuracy more or less the same as NB4
+
+ **4_stanford_cars_mixup.ipynb**
+ - Tuning the model using the [Mixup](https://arxiv.org/abs/1710.09412)) protocol, blending input images to provide stronger regularisation
+ - **89.4%** Accuracy, up 1% since NB2
+
+ **3_stanford_cars_cropped.ipynb**
+
+ - Training the model using the cropped images, based on the bounding boxes provided
+ - **78.54%** Accuracy, down 9.5% from Notebook 2 
+
+ **2_stanford_cars_lr_tuning.ipynb**
+ - Tuning of the learning rate and differential learning rates, again using fastai's implementation of the 1-cycle policy
+ - **88.19%** Accuracy, up 3.2%
 
 **1_stanford_cars_basic.ipynb**
 
  - Benchmark model using basic fastai image classification workflow including the 1-cycle policy
  - **84.95%** Accuracy
  
- **2_stanford_cars_lr_tuning.ipynb**
-
- - Tuning of the learning rate and differential learning rates, again using fastai's implementation of the 1-cycle policy
- - **88.19%** Accuracy, up 3.2%
- 
- **3_stanford_cars_cropped.ipynb**
-
- - Training the model using the cropped images, based on the bounding boxes provided
- - **78.54%** Accuracy, down 9.5% from Notebook 2 
- 
- **4_stanford_cars_mixup.ipynb**
-
- - Tuning the model using the [Mixup](https://arxiv.org/abs/1710.09412)) protocol, blending input images to provide stronger regularisation
- - **89.4%** Accuracy, up 1% since NB2
- 
-  **5_stanford_cars_mixup_and_dropout.ipynb**
-
- - Tuning the dropout parameters while also using the [Mixup](https://arxiv.org/abs/1710.09412)) protocol
- - **89.2%** Accuracy achieved with agressive dropout (ps = [0.35, 0.7]), accuracy more or less the same as NB4
- 
- **6_stanford_cars_cutout.ipynb**
- - Used the Cuout data augmentation alongside default fastai data transforms, size of the squares were 25% of the image side (e.g. 25%  x 224)
- - **88.3%** Accuracy achieved
- 
-  **9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb**
- - Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using Mish EfficientNet-b3 + Ranger
- - Using the Mish activation and Ranger with EfficientNet-b3. See notebook for implementation details
- - Validation loss and Accuracy (I used the test set as the validation set) are saved in mefficientnet_b3_ranger_results.xlsx 
-
 
 **labels_df.csv** contains the labels, filepath and test/train flag for each image file.
 
