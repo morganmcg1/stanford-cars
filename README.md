@@ -76,6 +76,10 @@ This was all run on a Paperspace P4000 machine apart from the EfficientNet-b7 re
 - Previous SOTA - **93.61%** (Apr-18)  https://www.researchgate.net/publication/316027349_Deep_CNNs_With_Spatially_Weighted_Pooling_for_Fine-Grained_Car_Recognition
 
 ## Potential Avenues of Investigation
+Fine tune first on Cars from [Google Open Images](https://storage.googleapis.com/openimages/web/download.html)
+
+Use DAT [Domain Adaptive Transfer Learning with Specialist Models](https://arxiv.org/pdf/1811.07056.pdf)_
+
 FORNAX - Great roundup in advances in 2018, some of which can be applied: https://github.com/kmkolasinski/deep-learning-notes/blob/master/seminars/2018-12-Improving-DL-with-tricks/Improving_deep_learning_models_with_bag_of_tricks.pdf
 
 AMAZON - Bag of Tricks for Image Classification with Convolutional Neural Network: https://arxiv.org/pdf/1812.01187.pdf
