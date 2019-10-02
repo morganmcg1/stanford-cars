@@ -8,7 +8,7 @@ Image classification of the stanford-cars dataset leveraging the fastai v1. The 
 This was all run on a Paperspace P4000 machine apart from the EfficientNet-b7 results which were run on a P6000.
 
 ## Current best score - **94.79%** 
-[SOTA = 96.0%, Domain Adaptive Transfer Learning with Specialist Models](https://arxiv.org/pdf/1811.07056.pdf)
+[SOTA = 96.2%, Domain Adaptive Transfer Learning with Specialist Models](https://arxiv.org/pdf/1811.07056.pdf)
 
 #### TL;DR
 - NOTEBOOK: [10_stanford_cars_EfficientNet_b7_Ranger_Mish_Trial.ipynb](https://github.com/morganmcg1/stanford-cars/blob/master/10_stanford_cars_EfficientNet_b7_Ranger_Mish_Trial.ipynb)
