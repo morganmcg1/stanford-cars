@@ -11,8 +11,7 @@ This was all run on a Paperspace P4000 machine apart from the EfficientNet-b7 re
 
 #### TL;DR
 - NOTEBOOK: [10_stanford_cars_EfficientNet_b7_Ranger_Mish_Trial.ipynb](https://github.com/morganmcg1/stanford-cars/blob/master/10_stanford_cars_EfficientNet_b7_Ranger_Mish_Trial.ipynb)
-- Continuing on [my EfficinetNet-b3 result of 93.8%](https://forums.fast.ai/t/project-stanford-cars-with-fastai-v1/34311/37)
-- [Quick Medium post](https://medium.com/@morganmcg), I matched the EfficinetNet paper's b7 result
+- Continuing on [my EfficinetNet-b3 result of 93.8%](https://forums.fast.ai/t/project-stanford-cars-with-fastai-v1/34311/37) I matched the EfficinetNet paper's b7 result
 - Achieved **94.79%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using Mish EfficientNet-b7 + Ranger
 - Matched the EfficientNet paper EfficientNet-b7 result of 94.7% (current SOTA is 94.8%)
 - Used MEfficientNet-b3, created by swapping the Squish activation function for the Mish activation function
