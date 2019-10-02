@@ -5,20 +5,18 @@
 
 Image classification of the stanford-cars dataset leveraging the fastai v1. The goal is to ~~**try hit 90%+ accuracy**~~  **shoot for the stars**, starting with a basic fastai image classification workflow and interating from there. 
 
-This was all run on a Paperspace P4000 machine.
+This was all run on a Paperspace P4000 machine apart from the EfficientNet-b7 results which were run on a P6000.
 
-## Current best score - **93.8%**
+## Current best score - **94.79%**
 
 #### TL;DR
-- NOTEBOOK: [9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb](https://github.com/morganmcg1/stanford-cars/blob/master/9_stanford_cars_EfficientNet_Ranger_Mish_Trial.ipynb)
-- [Fastai Forums post and discussion](https://forums.fast.ai/t/project-stanford-cars-with-fastai-v1/34311/37)
-- [Quick Medium post](https://medium.com/@morganmcg)
-- Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using MEfficientNet-b3 + Ranger
-- Beat the EfficientNet paper EfficientNet-b3 result by 0.2%
-- EfficientNet author's best result using b3 was 93.6%, best EfficientNet result was 94.8% (current SOTA) with EfficientNet-b7
+- NOTEBOOK: [10_stanford_cars_EfficientNet_b7_Ranger_Mish_Trial.ipynb](https://github.com/morganmcg1/stanford-cars/blob/master/10_stanford_cars_EfficientNet_b7_Ranger_Mish_Trial.ipynb)
+- Continuing on [my EfficinetNet-b3 result of 93.8%](https://forums.fast.ai/t/project-stanford-cars-with-fastai-v1/34311/37)
+- [Quick Medium post](https://medium.com/@morganmcg), I matched the EfficinetNet paper's b7 result
+- Achieved **94.79%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using Mish EfficientNet-b7 + Ranger
+- Matched the EfficientNet paper EfficientNet-b7 result of 94.7% (current SOTA is 94.8%)
 - Used MEfficientNet-b3, created by swapping the Squish activation function for the Mish activation function
 - Used the Ranger optimisation function (a combination of RAdam and Lookahead) and trained with FlatCosAnnealScheduler
-- EfficientNet-b3 with Ranger but without Mish was giving test set accuracy around 93.4% (-0.4%) and was much more stable to train than my efforts to train the model with RMSProp, which was used in the paper
 
 #### Credits
 - [Huge credit for this work goest to this inspirational fastai thread](https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu/53299/280), credit to @lukemelas for the pytorch implementation and all the fastai community especially @lessw2020 for Ranger, @digantamisra98 for Mish and @muellerzr, @grankin and everyone else there for making valuable contributions
@@ -35,6 +33,8 @@ This was all run on a Paperspace P4000 machine.
  - Achieved **93.8%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using Mish EfficientNet-b3 + Ranger
  - Using the Mish activation and Ranger with EfficientNet-b3. See notebook for implementation details
  - Validation loss and Accuracy (I used the test set as the validation set) are saved in mefficientnet_b3_ranger_results.xlsx 
+ - [Fastai Forums post and discussion](https://forums.fast.ai/t/project-stanford-cars-with-fastai-v1/34311/37)
+ - [Quick Medium post](https://medium.com/@morganmcg)
 
  **6_stanford_cars_cutout.ipynb**
  - Used the Cuout data augmentation alongside default fastai data transforms, size of the squares were 25% of the image side (e.g. 25%  x 224)
