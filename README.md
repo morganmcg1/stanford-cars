@@ -22,6 +22,9 @@ This was all run on a Paperspace P4000 machine apart from the EfficientNet-b7 re
 
 
 ## Notebook Results
+**10_stanford_cars_EfficientNet_b7_Ranger_Mish_Trial.ipynb** 
+ - Achieved **94.79%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using Mish EfficientNet-b7 + Ranger
+ - Using the Mish activation and Ranger with EfficientNet-b7. See notebook for implementation details
  
  **exp_stanford_cars_EfficientNet_Mish Range913A.ipynb**
  - Ran 8 experiments testing Beta version of new Range913A from [@less20202](https://github.com/lessw2020/Ranger-Deep-Learning-Optimizer)
