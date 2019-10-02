@@ -7,12 +7,13 @@ Image classification of the stanford-cars dataset leveraging the fastai v1. The 
 
 This was all run on a Paperspace P4000 machine apart from the EfficientNet-b7 results which were run on a P6000.
 
-## Current best score - **94.79%**
+## Current best score - **94.79%** 
+[SOTA = 96.0%, Domain Adaptive Transfer Learning with Specialist Models](https://arxiv.org/pdf/1811.07056.pdf)
 
 #### TL;DR
 - NOTEBOOK: [10_stanford_cars_EfficientNet_b7_Ranger_Mish_Trial.ipynb](https://github.com/morganmcg1/stanford-cars/blob/master/10_stanford_cars_EfficientNet_b7_Ranger_Mish_Trial.ipynb)
 - Continuing on [my EfficinetNet-b3 result of 93.8%](https://forums.fast.ai/t/project-stanford-cars-with-fastai-v1/34311/37) I matched the EfficinetNet paper's b7 result
-- Achieved **94.79%** 5-run, 40epoch, mean test set accuracy on Stanford Cars using Mish EfficientNet-b7 + Ranger
+- Achieved **94.79%** (standard deviation of 0.094) 5-run, 40epoch, mean test set accuracy on Stanford Cars using Mish EfficientNet-b7 + Ranger
 - Matched the EfficientNet paper EfficientNet-b7 result of 94.7% (current SOTA is 94.8%)
 - Used MEfficientNet-b3, created by swapping the Squish activation function for the Mish activation function
 - Used the Ranger optimisation function (a combination of RAdam and Lookahead) and trained with FlatCosAnnealScheduler
