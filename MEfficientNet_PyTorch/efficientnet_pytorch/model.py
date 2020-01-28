@@ -4,7 +4,6 @@ from torch.nn import functional as F
 
 from .utils import (
     mish_fn,
-    relu_fn,
     round_filters,
     round_repeats,
     drop_connect,
@@ -12,19 +11,10 @@ from .utils import (
     get_model_params,
     efficientnet_params,
     load_pretrained_weights,
+    Swish,
+    MemoryEfficientSwish,
 )
 
-# class Mish(nn.Module):
-#     def __init__(self):
-#         super().__init__()
-#         print("Mish activation loaded...")
-
-#     def forward(self, x):  
-#         #save 1 second per epoch with no x= x*() and then return x...just inline it.
-#         return x *( torch.tanh(F.softplus(x))) 
-
-# act_fn = Mish()
-    
 class MBConvBlock(nn.Module):
     """
     Mobile Inverted Residual Bottleneck Block
@@ -73,6 +63,7 @@ class MBConvBlock(nn.Module):
         final_oup = self._block_args.output_filters
         self._project_conv = Conv2d(in_channels=oup, out_channels=final_oup, kernel_size=1, bias=False)
         self._bn2 = nn.BatchNorm2d(num_features=final_oup, momentum=self._bn_mom, eps=self._bn_eps)
+        self._swish = MemoryEfficientSwish()
 
     def forward(self, inputs, drop_connect_rate=None):
         """
@@ -84,15 +75,15 @@ class MBConvBlock(nn.Module):
         # Expansion and Depthwise Convolution
         x = inputs
         if self._block_args.expand_ratio != 1:
-            # x = relu_fn(self._bn0(self._expand_conv(inputs)))
+            #x = self._swish(self._bn0(self._expand_conv(inputs)))
             x = mish_fn(self._bn0(self._expand_conv(inputs)))
-        # x = relu_fn(self._bn1(self._depthwise_conv(x)))
-        x = mish_fn(self._bn1(self._depthwise_conv(x)))
+            # x = self._swish(self._bn1(self._depthwise_conv(x)))
+            x = mish_fn(self._bn1(self._depthwise_conv(x)))
 
         # Squeeze and Excitation
         if self.has_se:
             x_squeezed = F.adaptive_avg_pool2d(x, 1)
-            # x_squeezed = self._se_expand(relu_fn(self._se_reduce(x_squeezed)))
+            #x_squeezed = self._se_expand(self._swish(self._se_reduce(x_squeezed)))
             x_squeezed = self._se_expand(mish_fn(self._se_reduce(x_squeezed)))
             x = torch.sigmoid(x_squeezed) * x
 
@@ -105,6 +96,10 @@ class MBConvBlock(nn.Module):
                 x = drop_connect(x, p=drop_connect_rate, training=self.training)
             x = x + inputs  # skip connection
         return x
+
+    def set_swish(self, memory_efficient=True):
+        """Sets swish function as memory efficient (for training) or standard (for export)"""
+        self._swish = MemoryEfficientSwish() if memory_efficient else Swish()
 
 
 class EfficientNet(nn.Module):
@@ -165,14 +160,23 @@ class EfficientNet(nn.Module):
         self._bn1 = nn.BatchNorm2d(num_features=out_channels, momentum=bn_mom, eps=bn_eps)
 
         # Final linear layer
-        self._dropout = self._global_params.dropout_rate
+        self._avg_pooling = nn.AdaptiveAvgPool2d(1)
+        self._dropout = nn.Dropout(self._global_params.dropout_rate)
         self._fc = nn.Linear(out_channels, self._global_params.num_classes)
+        self._swish = MemoryEfficientSwish()
+
+    def set_swish(self, memory_efficient=True):
+        """Sets swish function as memory efficient (for training) or standard (for export)"""
+        self._swish = MemoryEfficientSwish() if memory_efficient else Swish()
+        for block in self._blocks:
+            block.set_swish(memory_efficient)
+
 
     def extract_features(self, inputs):
         """ Returns output of the final convolution layer """
 
         # Stem
-        # x = relu_fn(self._bn0(self._conv_stem(inputs)))
+        #x = self._swish(self._bn0(self._conv_stem(inputs)))
         x = mish_fn(self._bn0(self._conv_stem(inputs)))
 
         # Blocks
@@ -183,21 +187,21 @@ class EfficientNet(nn.Module):
             x = block(x, drop_connect_rate=drop_connect_rate)
 
         # Head
-        # x = relu_fn(self._bn1(self._conv_head(x)))
+        # x = self._swish(self._bn1(self._conv_head(x)))
         x = mish_fn(self._bn1(self._conv_head(x)))
 
         return x
 
     def forward(self, inputs):
         """ Calls extract_features to extract features, applies final linear layer, and returns logits. """
-
+        bs = inputs.size(0)
         # Convolution layers
         x = self.extract_features(inputs)
 
         # Pooling and final linear layer
-        x = F.adaptive_avg_pool2d(x, 1).squeeze(-1).squeeze(-1)
-        if self._dropout:
-            x = F.dropout(x, p=self._dropout, training=self.training)
+        x = self._avg_pooling(x)
+        x = x.view(bs, -1)
+        x = self._dropout(x)
         x = self._fc(x)
         return x
 
@@ -205,14 +209,18 @@ class EfficientNet(nn.Module):
     def from_name(cls, model_name, override_params=None):
         cls._check_model_name_is_valid(model_name)
         blocks_args, global_params = get_model_params(model_name, override_params)
-        return cls(blocks_args, global_params)
+        return EfficientNet(blocks_args, global_params)
 
     @classmethod
-    def from_pretrained(cls, model_name, num_classes=1000):
-        model = cls.from_name(model_name, override_params={'num_classes': num_classes})
-        load_pretrained_weights(model, model_name, load_fc=(num_classes == 1000))
+    def from_pretrained(cls, model_name, advprop=False, num_classes=1000, in_channels=3):
+        model = EfficientNet.from_name(model_name, override_params={'num_classes': num_classes})
+        load_pretrained_weights(model, model_name, load_fc=(num_classes == 1000), advprop=advprop)
+        if in_channels != 3:
+            Conv2d = get_same_padding_conv2d(image_size = model._global_params.image_size)
+            out_channels = round_filters(32, model._global_params)
+            model._conv_stem = Conv2d(in_channels, out_channels, kernel_size=3, stride=2, bias=False)
         return model
-
+    
     @classmethod
     def get_image_size(cls, model_name):
         cls._check_model_name_is_valid(model_name)
@@ -220,10 +228,8 @@ class EfficientNet(nn.Module):
         return res
 
     @classmethod
-    def _check_model_name_is_valid(cls, model_name, also_need_pretrained_weights=False):
-        """ Validates model name. None that pretrained weights are only available for
-        the first four models (efficientnet-b{i} for i in 0,1,2,3) at the moment. """
-        num_models = 4 if also_need_pretrained_weights else 8
-        valid_models = ['efficientnet-b'+str(i) for i in range(num_models)]
+    def _check_model_name_is_valid(cls, model_name):
+        """ Validates model name. """ 
+        valid_models = ['efficientnet-b'+str(i) for i in range(9)]
         if model_name not in valid_models:
             raise ValueError('model_name should be one of: ' + ', '.join(valid_models))
